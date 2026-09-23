@@ -1,0 +1,28 @@
+manifestVersion: 1
+id: florian-garage
+name: Garage
+tagline: Self-hosted S3-compatible object storage
+icon: https://garagehq.deuxfleurs.fr/images/garage-logo.svg
+category: files
+version: "2.4.1"
+port: 3909
+description: >-
+  Garage is a lightweight, S3-compatible distributed object storage server.
+  This app runs it as a single node with persistent storage, plus a web UI
+  to manage buckets and access keys.
+
+
+  S3 endpoint: http://umbrel.local:3900 (region: garage).
+  Create an access key and a bucket in the web UI, then point any S3 client at it.
+developer: Deuxfleurs
+website: https://garagehq.deuxfleurs.fr
+submitter: Florian
+submission: https://github.com/getumbrel/umbrel-community-app-store
+repo: https://git.deuxfleurs.fr/Deuxfleurs/garage
+support: https://git.deuxfleurs.fr/Deuxfleurs/garage/issues
+gallery: []
+releaseNotes: ""
+dependencies: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""
