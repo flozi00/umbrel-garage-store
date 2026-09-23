@@ -4,12 +4,12 @@ name: Garage
 tagline: Self-hosted S3-compatible object storage
 icon: https://garagehq.deuxfleurs.fr/images/garage-logo.svg
 category: files
-version: "2.4.1"
-port: 3909
+version: "2.4.1-1"
+port: 8080
 description: >-
   Garage is a lightweight, S3-compatible distributed object storage server.
-  This app runs it as a single node with persistent storage, plus a web UI
-  to manage buckets and access keys.
+  This app runs it as a single node with persistent storage, plus Garage UI
+  (github.com/Noooste/garage-ui) to manage buckets, access keys and files.
 
 
   S3 endpoint: http://umbrel.local:3900 (region: garage).
@@ -21,7 +21,7 @@ submission: https://github.com/flozi00/umbrel-garage-store
 repo: https://git.deuxfleurs.fr/Deuxfleurs/garage
 support: https://git.deuxfleurs.fr/Deuxfleurs/garage/issues
 gallery: []
-releaseNotes: ""
+releaseNotes: "Switched web UI to Noooste/garage-ui."
 dependencies: []
 path: ""
 defaultUsername: ""

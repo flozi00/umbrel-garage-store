@@ -3,8 +3,8 @@ version: "3.7"
 services:
   app_proxy:
     environment:
-      APP_HOST: florian-garage_webui_1
-      APP_PORT: 3909
+      APP_HOST: florian-garage_ui_1
+      APP_PORT: 8080
 
   garage:
     image: dxflrs/garage:v2.4.1@sha256:9c96caa2612d3411acc5b0e6701fb238dbfba33e533a6d7d3d811a4b12d0d020
@@ -21,15 +21,15 @@ services:
       - ${APP_DATA_DIR}/data/meta:/var/lib/garage/meta
       - ${APP_DATA_DIR}/data/data:/var/lib/garage/data
 
-  webui:
-    image: khairul169/garage-webui:1.1.0@sha256:17c793551873155065bf9a022dabcde874de808a1f26e648d4b82e168806439c
+  ui:
+    image: noooste/garage-ui:v0.13.0@sha256:a1444fa10585a0efc8ce3c33ebda873e5714d51dbc8f7f49d00143ff3b72fcc2
     restart: on-failure
     environment:
-      API_BASE_URL: http://florian-garage_garage_1:3903
-      API_ADMIN_KEY: ${APP_SEED}
-      S3_ENDPOINT_URL: http://florian-garage_garage_1:3900
-      S3_REGION: garage
-    volumes:
-      - ${APP_DATA_DIR}/garage.toml:/etc/garage.toml:ro
+      GARAGE_UI_SERVER_HOST: "0.0.0.0"
+      GARAGE_UI_SERVER_PORT: "8080"
+      GARAGE_UI_GARAGE_ENDPOINT: http://florian-garage_garage_1:3900
+      GARAGE_UI_GARAGE_ADMIN_ENDPOINT: http://florian-garage_garage_1:3903
+      GARAGE_UI_GARAGE_ADMIN_TOKEN: ${APP_SEED}
+      GARAGE_UI_GARAGE_REGION: garage
     depends_on:
       - garage
