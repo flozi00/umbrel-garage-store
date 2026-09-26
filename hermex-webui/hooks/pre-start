@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# hermex-webui pre-start hook
+# Provisions the agent source + venv copy the webui imports (as uid 1000), and
+# refreshes it when the installed "Hermes Agent" app image changes version.
+set -euo pipefail
+
+SRC_ROOT="${APP_DATA_DIR}/data/agent-src"           # -> .../hermex-webui/data/agent-src/hermes
+STAMP="${SRC_ROOT}/.agent-image-version"
+
+# The published image of the installed hermes-agent app (same digest scheme used by umbreld).
+HERMES_APP_DATA="${UMBREL_ROOT}/app-data/hermes-agent"
+AGENT_IMAGE_SPEC=$(yq '.services.web.image' "${HERMES_APP_DATA}/docker-compose.yml" 2>/dev/null || echo "")
+[ -n "${AGENT_IMAGE_SPEC}" ] || { echo "[hermex-webui] WARN: hermes-agent app not found — keeping existing agent-src"; exit 0; }
+
+mkdir -p "${SRC_ROOT}"
+
+if [ -f "${STAMP}" ] && [ "$(cat "${STAMP}")" = "${AGENT_IMAGE_SPEC}" ] && [ -f "${SRC_ROOT}/hermes/.venv/bin/python3" ]; then
+  : # up to date
+else
+  echo "[hermex-webui] Provisioning agent source from ${AGENT_IMAGE_SPEC}"
+  CID=$(docker create "${AGENT_IMAGE_SPEC}")
+  trap 'docker rm -f "${CID}" >/dev/null 2>&1 || true' EXIT
+  rm -rf "${SRC_ROOT}/hermes" "${SRC_ROOT}/hermes.tmp"
+  mkdir -p "${SRC_ROOT}/hermes.tmp"
+  docker cp "${CID}"/opt/hermes/. "${SRC_ROOT}/hermes.tmp"
+  docker rm -f "${CID}" >/dev/null 2>&1 && trap - EXIT
+  # .playwright etc may be root-owned in image; image runs as 1000, chown-copy to be safe
+  mkdir -p "${SRC_ROOT}/hermes"
+  cp -a "${SRC_ROOT}/hermes.tmp/." "${SRC_ROOT}/hermes/"
+  rm -rf "${SRC_ROOT}/hermes.tmp"
+  chown -R 1000:1000 "${SRC_ROOT}/hermes"
+  echo "${AGENT_IMAGE_SPEC}" > "${STAMP}"
+  chown 1000:1000 "${STAMP}"
+fi
+echo "[hermex-webui] agent source ready ($(cat "${STAMP}"))"

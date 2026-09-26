@@ -1,0 +1,43 @@
+manifestVersion: 1.1
+id: hermex-webui
+category: ai
+name: Hermex WebUI
+version: "1.0.0"
+tagline: iPhone-ready chat WebUI for your Hermes agent (Hermex companion)
+icon: https://getumbrel.github.io/umbrel-apps-gallery/hermes-agent/icon.svg
+description: >-
+  Browser and iPhone chat interface for the Hermes Agent on this Umbrel. This app
+  runs the community hermes-webui server (github.com/nesquena/hermes-webui) as
+  a sidecar to the "Hermes Agent" app: it shares the same agent home (sessions,
+  memory, skills, cron) while serving a dedicated chat UI with password login.
+
+
+  Point the Hermex iPhone app (github.com/uzairansaruzi/hermex) at
+  https://umbrel.tailac8bf.ts.net:8443 with this app's password, or browse the
+  local tile to chat from any device on your LAN.
+
+
+  Requires Tailscale Serve forwarding 8443 on the umbrella host stays
+  configured (managed outside this app).
+
+  ## Notes
+
+
+    - The password shown on this app's page is the hermes-webui login
+
+    - Agent home is shared with the "Hermes Agent" Umbrel app
+
+    - It also works standalone in a browser; Hermex is optional
+developer: nesquena (WebUI), Uzair Ansari (Hermex)
+website: https://github.com/nesquena/hermes-webui
+dependencies: []
+repo: https://github.com/nesquena/hermes-webui
+support: https://github.com/nesquena/hermes-webui/issues
+port: 18791
+gallery: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""
+releaseNotes: "Initial release: hermes-webui v0.52.379 sidecar with shared agent home, APP_PASSWORD login, loopback 8787 + LAN tile 18791."
+submitter: Florian
+submission: https://github.com/flozi00/umbrel-garage-store
