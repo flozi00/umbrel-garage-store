@@ -1,5 +1,5 @@
-manifestVersion: 1.1
-id: hermex-webui
+manifestVersion: "1.1"
+id: florian-hermex-webui
 category: ai
 name: Hermex WebUI
 version: "1.0.0"
@@ -13,12 +13,12 @@ description: >-
 
 
   Point the Hermex iPhone app (github.com/uzairansaruzi/hermex) at
-  https://umbrel.tailac8bf.ts.net:8443 with this app's password, or browse the
-  local tile to chat from any device on your LAN.
+  https://umbrel.tailac8bf.ts.net:8443 with this app's password, or open the
+  app tile on your LAN to chat from any browser.
 
 
-  Requires Tailscale Serve forwarding 8443 on the umbrella host stays
-  configured (managed outside this app).
+  Tailscale Serve (8443 -> 8787) is managed on the Umbrel host, outside this app.
+
 
   ## Notes
 
@@ -27,7 +27,7 @@ description: >-
 
     - Agent home is shared with the "Hermes Agent" Umbrel app
 
-    - It also works standalone in a browser; Hermex is optional
+    - Hermex (iPhone app) is optional — the WebUI also works standalone
 developer: nesquena (WebUI), Uzair Ansari (Hermex)
 website: https://github.com/nesquena/hermes-webui
 dependencies: []
@@ -38,6 +38,8 @@ gallery: []
 path: ""
 defaultUsername: ""
 defaultPassword: ""
+deterministicPassword: true
+installSize: 421000000
 releaseNotes: "Initial release: hermes-webui v0.52.379 sidecar with shared agent home, APP_PASSWORD login, loopback 8787 + LAN tile 18791."
 submitter: Florian
 submission: https://github.com/flozi00/umbrel-garage-store

@@ -4,7 +4,7 @@ services:
   app_proxy:
     environment:
       # LAN tile via umbrel middleware (umbrel.local:18791, behind umbrel login)
-      APP_HOST: hermex-webui_web_1
+      APP_HOST: florian-hermex-webui_web_1
       APP_PORT: 8787
 
   web:
