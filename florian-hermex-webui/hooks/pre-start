@@ -22,8 +22,9 @@ else
   trap 'docker rm -f "${CID}" >/dev/null 2>&1 || true' EXIT
   rm -rf "${SRC_ROOT}/hermes" "${SRC_ROOT}/hermes.tmp"
   mkdir -p "${SRC_ROOT}/hermes.tmp"
-  docker cp "${CID}"/opt/hermes/. "${SRC_ROOT}/hermes.tmp"
+  docker cp "${CID}:/opt/hermes/." "${SRC_ROOT}/hermes.tmp"
   docker rm -f "${CID}" >/dev/null 2>&1 && trap - EXIT
+  test -x "${SRC_ROOT}/hermes.tmp/.venv/bin/python3" || { echo "[hermex-webui] FATAL: copied agent source lacks venv"; exit 1; }
   # .playwright etc may be root-owned in image; image runs as 1000, chown-copy to be safe
   mkdir -p "${SRC_ROOT}/hermes"
   cp -a "${SRC_ROOT}/hermes.tmp/." "${SRC_ROOT}/hermes/"

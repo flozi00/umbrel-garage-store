@@ -2,7 +2,7 @@ manifestVersion: "1.1"
 id: florian-hermex-webui
 category: ai
 name: Hermex WebUI
-version: "1.0.0"
+version: "1.0.1"
 tagline: iPhone-ready chat WebUI for your Hermes agent (Hermex companion)
 icon: https://getumbrel.github.io/umbrel-apps-gallery/hermes-agent/icon.svg
 description: >-
