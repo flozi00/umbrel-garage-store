@@ -16,6 +16,7 @@ services:
       GARAGE_ADMIN_TOKEN: ${APP_SEED}
     ports:
       - "3900:3900" # S3 API
+      - "3901:3901" # RPC — required so other Garage nodes can join this one
     volumes:
       - ${APP_DATA_DIR}/garage.toml:/etc/garage.toml:ro
       - ${APP_DATA_DIR}/data/meta:/var/lib/garage/meta

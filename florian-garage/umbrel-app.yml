@@ -4,7 +4,7 @@ name: Garage
 tagline: Self-hosted S3-compatible object storage
 icon: https://garagehq.deuxfleurs.fr/images/garage-logo.svg
 category: files
-version: "2.4.1-2"
+version: "2.4.1-3"
 port: 8080
 description: >-
   Garage is a lightweight, S3-compatible distributed object storage server.
@@ -12,10 +12,15 @@ description: >-
   (github.com/Noooste/garage-ui) to manage buckets, access keys and files.
 
 
-  S3 endpoint: http://umbrel.local:3900 (region: garage).
-  On first start, use the Cluster tab in Garage UI to assign this node to the
-  layout (zone dc1) and apply the layout. Create an access key and a bucket
-  in the web UI, then point any S3 client at it.
+  S3 endpoints: http://umbrel.local:3900 and, with Tailscale, persistent HTTPS
+  at https://<umbrel>.<tailnet>.ts.net:10000 (region: garage).
+
+
+  Clustering: on first start, use the Cluster tab in Garage UI to assign this
+  node to the layout (zone dc1) and apply it. To join more Umbrel Garage
+  instances into one cluster, set the same GARAGE_RPC_SECRET here and on every
+  peer, then connect them by RPC (port 3901) — the app's Settings page shows
+  this node's full node ID and tailnet address.
 developer: Deuxfleurs
 website: https://garagehq.deuxfleurs.fr
 submitter: Florian
@@ -23,8 +28,13 @@ submission: https://github.com/flozi00/umbrel-garage-store
 repo: https://git.deuxfleurs.fr/Deuxfleurs/garage
 support: https://git.deuxfleurs.fr/Deuxfleurs/garage/issues
 gallery: []
-releaseNotes: "Fix: garage no longer refuses to start ('layout version is already superior to 1') after any cluster layout change. Run garage in full mode; Garage UI's layout editor handles initial setup."
+releaseNotes: "Cluster-ready: RPC port 3901 exposed; rpc_public_addr auto-set to the Umbrel's Tailscale IP; configurable GARAGE_RPC_SECRET to share one cluster secret across instances; tailnet HTTPS endpoint for S3 (:10000) enabled via pre-start hook."
 dependencies: []
+environment:
+  - name: GARAGE_RPC_SECRET
+    services: [garage]
+    default: ""
+    note: "Same value on every node (openssl rand -hex 32). Empty = per-device secret (single node). Takes effect after app restart."
 path: ""
 defaultUsername: ""
 defaultPassword: ""

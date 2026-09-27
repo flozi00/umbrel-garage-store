@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# florian-garage pre-start hook
+# Makes this node cluster-ready and gives the S3 API a persistent HTTPS endpoint
+# on the tailnet (same pattern as florian-hermex-webui):
+#   1. rpc_public_addr -> the host's Tailscale IPv4 (stable across LAN/DHCP changes)
+#   2. tailscale serve --https=10000 -> 127.0.0.1:3900 (idempotent, best effort)
+# Without Tailscale (or before login) the app keeps single-node defaults.
+set -euo pipefail
+
+CFG="${APP_DATA_DIR}/garage.toml"
+TS_CONTAINER="tailscale_web_1"
+
+if ! docker inspect "${TS_CONTAINER}" >/dev/null 2>&1; then
+  echo "[florian-garage] no tailscale app installed — keeping single-node defaults"
+  exit 0
+fi
+
+TS_IP="$(docker exec "${TS_CONTAINER}" tailscale ip -4 2>/dev/null | tail -n1 || true)"
+if [[ -z "${TS_IP}" ]]; then
+  echo "[florian-garage] tailscale has no IP (not logged in?) — keeping single-node defaults"
+  exit 0
+fi
+
+# 1. Advertise the stable tailnet address for inter-node RPC (port 3901).
+if [[ -f "${CFG}" ]] && grep -q '^rpc_public_addr' "${CFG}"; then
+  sed -i "s#^rpc_public_addr *= *\".*\"#rpc_public_addr = \"${TS_IP}:3901\"#" "${CFG}"
+  echo "[florian-garage] rpc_public_addr -> ${TS_IP}:3901"
+fi
+
+# 2. Persistent tailnet HTTPS endpoint for the S3 API. Serve state lives in
+#    tailscaled, so this is self-healing after reboots, not a per-start restart.
+if docker exec "${TS_CONTAINER}" tailscale serve status 2>/dev/null | grep -q ':10000'; then
+  echo "[florian-garage] tailnet https://$(hostname -s).<tailnet>:10000 -> 3900 already active"
+else
+  if docker exec "${TS_CONTAINER}" tailscale serve --bg --https=10000 http://127.0.0.1:3900 >/dev/null 2>&1; then
+    echo "[florian-garage] tailnet https endpoint :10000 -> 127.0.0.1:3900 enabled"
+  else
+    echo "[florian-garage] WARN: could not enable tailscale serve :10000 — skipping"
+  fi
+fi

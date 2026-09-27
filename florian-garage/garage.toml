@@ -5,6 +5,12 @@ db_engine = "sqlite"
 replication_factor = 1
 
 rpc_bind_addr = "[::]:3901"
+# Multi-node: this address is what other Garage nodes use to reach this node.
+# The Umbrel's tailnet IP is stable across reboots/LAN changes, so cluster peers
+# (anywhere on the tailnet) can always dial in. 127.0.0.1 keeps single-node setups
+# working identically.
+# For the tailnet IP, this is set at install time via the pre-start hook
+# (${APP_DATA_DIR}/garage.toml) — see hooks/pre-start in the store repo.
 rpc_public_addr = "127.0.0.1:3901"
 
 [s3_api]
