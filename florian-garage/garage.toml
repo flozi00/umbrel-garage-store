@@ -2,7 +2,11 @@
 metadata_dir = "/var/lib/garage/meta"
 data_dir = "/var/lib/garage/data"
 db_engine = "sqlite"
-replication_factor = 1
+# Multi-node redundancy: every partition is stored on BOTH dc1+dc2 nodes.
+# MUST match the peer node's garage.toml exactly. With 2 nodes: tolerates one
+# full node loss, reads stay available, writes pause until the node returns.
+replication_factor = 2
+consistency_mode = "consistent"
 
 rpc_bind_addr = "[::]:3901"
 # Multi-node: this address is what other Garage nodes use to reach this node.
