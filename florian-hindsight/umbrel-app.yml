@@ -4,7 +4,7 @@ category: ai
 name: Hindsight
 version: "0.10.1"
 tagline: Persistent memory for AI agents
-icon: https://raw.githubusercontent.com/vectorize-io/hindsight/main/hindsight-docs/static/img/hindsight-logo.png
+icon: https://raw.githubusercontent.com/vectorize-io/hindsight/main/hindsight-docs/static/img/logo.png
 description: >-
   Self-hosted Hindsight memory API and Control Plane. Retain, recall and
   reflect over memory banks with a local embedded PostgreSQL database.
