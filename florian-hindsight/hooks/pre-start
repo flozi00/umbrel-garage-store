@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# hindsight pre-start hook
+# Hindsight runs rootless as UID 1000 (do NOT set `user:` in compose — any
+# other UID has no /etc/passwd entry and crashes with "getpwuid(): uid not
+# found"). umbreld creates ${APP_DATA_DIR}/data as root, so the embedded
+# PostgreSQL directory must be chowned to the container user on every start,
+# otherwise startup crashes with "not writable by this container (UID 1000)".
+# See https://github.com/vectorize-io/hindsight/issues/1483
+set -euo pipefail
+
+DATA_DIR="${APP_DATA_DIR}/data"
+
+mkdir -p "${DATA_DIR}"
+chown -R 1000:1000 "${DATA_DIR}"
+
+echo "[hindsight] data dir ${DATA_DIR} now owned by 1000:1000"

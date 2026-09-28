@@ -1,8 +1,10 @@
 # Hindsight on Umbrel
 
-Install **Hindsight** from this community app store. In the Umbrel app settings,
-set `HINDSIGHT_API_LLM_PROVIDER`, `HINDSIGHT_API_LLM_MODEL` and, for
-hosted providers, `HINDSIGHT_API_LLM_API_KEY`. Restart the app after changes.
+Install **Hindsight** from this community app store. By default it runs with
+`HINDSIGHT_API_LLM_PROVIDER=none` — no API key needed, chunk storage plus
+semantic search. In the Umbrel app settings, set `HINDSIGHT_API_LLM_MODEL` and,
+for hosted providers, `HINDSIGHT_API_LLM_PROVIDER` (e.g. `openai`, `ollama`) and
+`HINDSIGHT_API_LLM_API_KEY`. Restart the app after changes.
 
 The Control Plane opens from the app tile on port 9999. Sign in with the
 password shown on the Umbrel app page. The API is at
@@ -20,7 +22,8 @@ address reachable by Docker containers. No LLM API key is needed.
 The embedded PostgreSQL data is persisted under
 `~/umbrel/app-data/florian-hindsight/data/`. Back up this directory with the
 app stopped. The container runs as UID 1000, so its directory must be writable
-by that user. The image runs local embeddings and reranking on CPU and needs
+by that user — the `hooks/pre-start` script chowns it to 1000:1000 on every
+start, because umbreld creates it as root. The image runs local embeddings and reranking on CPU and needs
 around 2 GB RAM plus 1 GB shared memory. The first start may download models.
 
 Upstream documentation: https://hindsight.vectorize.io/developer/installation

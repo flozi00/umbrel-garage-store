@@ -2,7 +2,7 @@ manifestVersion: "1.1"
 id: florian-hindsight
 category: ai
 name: Hindsight
-version: "0.10.1"
+version: "0.10.1-2"
 tagline: Persistent memory for AI agents
 icon: https://raw.githubusercontent.com/vectorize-io/hindsight/main/hindsight-docs/static/img/logo.png
 description: >-
@@ -21,8 +21,8 @@ dependencies: []
 environment:
   - name: HINDSIGHT_API_LLM_PROVIDER
     services: [server]
-    default: "openai"
-    note: "LLM provider, for example openai or ollama."
+    default: "none"
+    note: "LLM provider. Default 'none' runs without any API key (chunk storage + semantic search; reflect disabled). Set e.g. 'openai' or 'ollama' plus API key/base URL for full fact extraction."
   - name: HINDSIGHT_API_LLM_MODEL
     services: [server]
     default: "gpt-5-mini"
@@ -40,4 +40,4 @@ defaultUsername: ""
 defaultPassword: ""
 deterministicPassword: true
 installSize: 2000000000
-releaseNotes: "Initial Hindsight v0.10.1 deployment with embedded database, protected API and Control Plane."
+releaseNotes: "Fix crash on first start: pre-start hook chowns the embedded database directory to the container user (UID 1000); default LLM provider is now 'none' so the app starts without an API key (chunk storage + semantic search). Switch provider in app settings for full fact extraction."
