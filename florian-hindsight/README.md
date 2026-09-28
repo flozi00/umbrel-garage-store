@@ -8,9 +8,8 @@ The Control Plane opens from the app tile on port 9999. Sign in with the
 password shown on the Umbrel app page. The API is at
 `http://umbrel.local:8888`, and MCP at
 `http://umbrel.local:8888/mcp/<bank_id>/`. API clients must provide the
-Umbrel app seed as a Bearer token; retrieve it on the host with
-`cd ~/umbrel && ./scripts/app compose florian-hindsight config` if your Umbrel
-version supports that command, or inspect the app's environment locally.
+Umbrel app seed as a Bearer token; retrieve the `APP_SEED` value from the app's container environment on the
+Umbrel host. Keep it private.
 Do not publish port 8888 directly to the internet; use HTTPS and access controls
 when connecting remotely.
 
