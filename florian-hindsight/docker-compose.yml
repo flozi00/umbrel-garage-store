@@ -1,0 +1,28 @@
+version: "3.7"
+
+services:
+  app_proxy:
+    environment:
+      APP_HOST: florian-hindsight_server_1
+      APP_PORT: 9999
+
+  server:
+    image: ghcr.io/vectorize-io/hindsight:0.10.1
+    restart: on-failure
+    shm_size: "1gb"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "8888:8888"
+    volumes:
+      - ${APP_DATA_DIR}/data:/home/hindsight/.pg0
+    environment:
+      HINDSIGHT_API_LLM_PROVIDER: ${HINDSIGHT_API_LLM_PROVIDER:-openai}
+      HINDSIGHT_API_LLM_MODEL: ${HINDSIGHT_API_LLM_MODEL:-gpt-5-mini}
+      HINDSIGHT_API_LLM_API_KEY: ${HINDSIGHT_API_LLM_API_KEY:-}
+      HINDSIGHT_API_LLM_BASE_URL: ${HINDSIGHT_API_LLM_BASE_URL:-}
+      HINDSIGHT_API_TENANT_EXTENSION: hindsight_api.extensions.builtin.tenant:ApiKeyTenantExtension
+      HINDSIGHT_API_TENANT_API_KEY: ${APP_SEED}
+      HINDSIGHT_CP_DATAPLANE_API_URL: http://localhost:8888
+      HINDSIGHT_CP_DATAPLANE_API_KEY: ${APP_SEED}
+      HINDSIGHT_CP_ACCESS_KEY: ${APP_PASSWORD}

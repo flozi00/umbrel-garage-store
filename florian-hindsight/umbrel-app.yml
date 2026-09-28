@@ -1,0 +1,43 @@
+manifestVersion: "1.1"
+id: florian-hindsight
+category: ai
+name: Hindsight
+version: "0.10.1"
+tagline: Persistent memory for AI agents
+icon: https://raw.githubusercontent.com/vectorize-io/hindsight/main/hindsight-docs/static/img/logo.png
+description: >-
+  Self-hosted Hindsight memory API and Control Plane. Retain, recall and
+  reflect over memory banks with a local embedded PostgreSQL database.
+  Configure an LLM provider in the app settings before using memory operations.
+developer: Vectorize
+website: https://hindsight.vectorize.io
+repo: https://github.com/vectorize-io/hindsight
+support: https://github.com/vectorize-io/hindsight/issues
+submitter: Florian
+submission: https://github.com/flozi00/umbrel-garage-store
+port: 9999
+gallery: []
+dependencies: []
+environment:
+  - name: HINDSIGHT_API_LLM_PROVIDER
+    services: [server]
+    default: "openai"
+    note: "LLM provider, for example openai or ollama."
+  - name: HINDSIGHT_API_LLM_MODEL
+    services: [server]
+    default: "gpt-5-mini"
+    note: "Model available from the selected provider."
+  - name: HINDSIGHT_API_LLM_API_KEY
+    services: [server]
+    default: ""
+    note: "Provider API key. Ollama does not need one."
+  - name: HINDSIGHT_API_LLM_BASE_URL
+    services: [server]
+    default: ""
+    note: "Optional custom endpoint. For Ollama on Umbrel use http://host.docker.internal:11434/v1 if reachable."
+path: ""
+defaultUsername: ""
+defaultPassword: ""
+deterministicPassword: true
+installSize: 2000000000
+releaseNotes: "Initial Hindsight v0.10.1 deployment with embedded database, protected API and Control Plane."
