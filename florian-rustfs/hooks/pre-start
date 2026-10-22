@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# RustFS runs as UID/GID 10001:10001. Umbrel may create bind-mount directories
+# as root, so make the top-level persistent storage directory writable before
+# starting the container. Do not recursively chown object data on every start.
+set -euo pipefail
+
+DATA_DIR="${APP_DATA_DIR}/data"
+mkdir -p "${DATA_DIR}"
+chown 10001:10001 "${DATA_DIR}"
+
+echo "[rustfs] persistent data directory ready: ${DATA_DIR} (10001:10001)"
