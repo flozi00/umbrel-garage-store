@@ -1,0 +1,33 @@
+manifestVersion: "1.1"
+id: florian-rustfs
+category: files
+name: RustFS
+version: "1.0.3"
+tagline: Self-hosted S3-compatible object storage
+icon: https://raw.githubusercontent.com/rustfs/docs.rustfs.com/main/public/android-chrome-512x512.png
+description: >-
+  RustFS is an open-source, S3-compatible object storage server written in Rust.
+  This app runs a single-node instance with persistent local storage and the
+  built-in web console. Open the console from the Umbrel app tile and connect
+  S3 clients to http://umbrel.local:3902. Sign in with access key UMBRELRUSTFS
+  and the password displayed on this app's Umbrel page.
+
+  Single-node, single-disk mode does not provide data redundancy. Back up your
+  objects and use HTTPS when accessing the S3 API beyond a trusted network.
+developer: RustFS Team
+website: https://rustfs.com
+repo: https://github.com/rustfs/rustfs
+support: https://github.com/rustfs/rustfs/issues
+submitter: Florian
+submission: https://github.com/flozi00/umbrel-garage-store
+port: 3903
+gallery: []
+dependencies: []
+path: ""
+defaultUsername: UMBRELRUSTFS
+defaultPassword: ""
+deterministicPassword: true
+releaseNotes: >-
+  Initial release using RustFS 1.0.3 with the embedded Console, a separate S3
+  endpoint on port 3902, persistent data, Umbrel-generated credentials, and
+  automatic directory ownership setup for RustFS's rootless container.

@@ -1,0 +1,37 @@
+version: "3.7"
+
+services:
+  app_proxy:
+    environment:
+      APP_HOST: florian-rustfs_rustfs_1
+      APP_PORT: 9001
+
+  rustfs:
+    image: rustfs/rustfs:1.0.3
+    restart: on-failure
+    stop_grace_period: 1m
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      RUSTFS_VOLUMES: /data
+      RUSTFS_ADDRESS: 0.0.0.0:9000
+      RUSTFS_CONSOLE_ADDRESS: 0.0.0.0:9001
+      RUSTFS_CONSOLE_ENABLE: "true"
+      RUSTFS_ACCESS_KEY: UMBRELRUSTFS
+      RUSTFS_SECRET_KEY: ${APP_PASSWORD}
+      RUSTFS_OBS_LOGGER_LEVEL: warn
+    ports:
+      # S3 API on the LAN; the console is served through Umbrel's app proxy.
+      - "3902:9000"
+    volumes:
+      - ${APP_DATA_DIR}/data:/data
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          curl -fsS http://127.0.0.1:9000/health >/dev/null &&
+          curl -fsS http://127.0.0.1:9001/rustfs/console/health >/dev/null
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s

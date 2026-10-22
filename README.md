@@ -1,12 +1,21 @@
-# Garage S3 – Umbrel Community App Store
+# Florian's Umbrel Community App Store
 
-1. Push this folder to a public GitHub repo.
-2. Umbrel → App Store → ⋯ → Community App Stores → paste the repo URL.
-3. Install **Garage**. Web UI opens via Umbrel; S3 API is on port `3900` (region `garage`).
+Add this store in Umbrel via **App Store → ⋯ → Community App Stores**:
+https://github.com/flozi00/umbrel-garage-store
 
-Data lives in `~/umbrel/app-data/florian-garage/data/`.
+## Available apps
 
-## Endpoints (with Tailscale)
+- **Garage** — distributed S3-compatible storage; S3 API on port `3900`.
+- **RustFS** — S3-compatible object storage; S3 API on port `3902`, Console via Umbrel tile (port `3903`). See [RustFS setup](florian-rustfs/README.md).
+- **Hindsight** — persistent memory for AI agents.
+- **Hermex WebUI** — browser/iPhone interface for Hermes Agent.
+
+## Garage S3
+
+Garage's web UI opens via Umbrel. Its S3 API listens on port `3900` (region `garage`).
+Persistent data lives under `~/umbrel/app-data/florian-garage/data/`.
+
+### Endpoints (with Tailscale)
 
 | Endpoint | URL | Auth |
 |---|---|---|
@@ -18,7 +27,7 @@ Data lives in `~/umbrel/app-data/florian-garage/data/`.
 The tailnet HTTPS endpoint and `rpc_public_addr` are managed by the app's
 `hooks/pre-start` (same persistence pattern as florian-hermex-webui's 8443).
 
-## Clustering multiple Umbrel Garage instances
+### Clustering multiple Umbrel Garage instances
 
 Garage is a geo-distributed store: nodes cluster over the RPC port (3901, TCP),
 encrypted/authenticated by the cluster-wide `rpc_secret`. On a tailnet this needs
